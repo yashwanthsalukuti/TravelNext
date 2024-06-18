@@ -1,0 +1,222 @@
+<% layout("./layouts/boilerplate")%>
+<style>
+  .horizontal-scroll {
+    width: 800px;
+    height: 80px;
+    background: transparent;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Medium screens (tablets, 768px and up) */
+  @media (max-width: 1024px) {
+    .horizontal-scroll {
+      width: 600px;
+    }
+  }
+
+  /* Small screens (large phones, 600px and up) */
+  @media (max-width: 768px) {
+    .horizontal-scroll {
+      width: 400px;
+    }
+  }
+
+  /* Extra small screens (phones, less than 600px) */
+  @media (max-width: 600px) {
+    .horizontal-scroll {
+      width: 100%;
+    }
+  }
+
+  .horizontal-scroll .btn-scroll {
+    background-color: #fff;
+    color: #999;
+    box-shadow: 0 0 10px #999;
+    border: 0;
+    border-radius: 50%;
+    margin: 0 5px;
+    z-index: 1;
+    cursor: pointer;
+    transition: 1s;
+  }
+
+  .storys-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    transition: 0.5s all ease-out;
+  }
+  .filter {
+    text-align: center;
+    margin-right: 2rem;
+    margin-top: 1rem;
+    opacity: 0.7;
+    color: black;
+  }
+  .story-circle {
+    width: 60px;
+    height: 60px;
+    margin: 15px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+  }
+  .story-circle i {
+    font-size: 20px;
+  }
+  .filter p {
+    font-size: 0.8rem;
+    margin: 0;
+  }
+  .filter:hover {
+    opacity: 1;
+    color: purple;
+    cursor: pointer;
+  }
+</style>
+
+<div class="container">
+  <div class="horizontal-scroll">
+    <button
+      class="btn-scroll"
+      id="btn-scroll-left"
+      onclick="scrollHorizontally(1)"
+    >
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <button
+      class="btn-scroll"
+      id="btn-scroll-right"
+      onclick="scrollHorizontally(-1)"
+    >
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+    <div class="storys-container">
+      <div class="story-circle filter">
+        <i class="fa-solid fa-fire"></i>
+        <p>Trending</p>
+      </div>
+      <div class="story-circle filter">
+        <i class="fa-solid fa-bed"></i>
+        <p>Rooms</p>
+      </div>
+      <div class="story-circle filter">
+        <i class="fa-solid fa-mountain-city"></i>
+        <p>Iconic Cities</p>
+      </div>
+      <div class="story-circle filter">
+        <i class="fa-solid fa-mountain"></i>
+        <p>Mountains</p>
+      </div>
+      <div class="story-circle filter">
+        <i class="fa-solid fa-umbrella-beach"></i>
+        <p>Beaches</p>
+      </div>
+      <div class="story-circle filter">
+        <i class="fa-brands fa-fort-awesome"></i>
+        <p>Castles</p>
+      </div>
+      <div class="story-circle filter">
+        <i class="fa-solid fa-person-swimming"></i>
+        <p>Pools</p>
+      </div>
+      <div class="story-circle filter">
+        <i class="fa-solid fa-house-chimney-window"></i>
+        <p>Bungalows</p>
+      </div>
+      <div class="story-circle filter">
+        <i class="fa-solid fa-archway"></i>
+        <p>Cottages</p>
+      </div>
+      <div class="story-circle filter">
+        <i class="fa-solid fa-house-signal"></i>
+        <p>Wi-Fi</p>
+      </div>
+      <div class="story-circle filter">
+        <i class="fa-solid fa-dumbbell"></i>
+        <p>Gym</p>
+      </div>
+
+      <div class="story-circle filter">
+        <i class="fa-solid fa-snowflake"></i>
+        <p>Arctic</p>
+      </div>
+      <div class="story-circle filter">
+        <i class="fa-solid fa-campground"></i>
+        <p>Camping</p>
+      </div>
+
+      <div class="story-circle filter">
+        <i class="fa-solid fa-cow"></i>
+        <p>farm</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+  <%for(let listing of allListings){%>
+  <a href="/listings/<%=listing._id%> " class="listing-link">
+    <div class="card col listing-card">
+      <img
+        src="<%=listing.image.url%>"
+        class="card-img-top"
+        alt="Listingimage"
+        style="height: 20rem"
+      />
+      <div class="card-img-overlay"></div>
+      <div class="card-body">
+        <p class="card-text">
+          <b><%=listing.title%></b
+          ><br />&#8377;<%=listing.price.toLocaleString("en-IN")%>/night
+        </p>
+      </div>
+    </div>
+  </a>
+  <% }%>
+</div>
+
+<script>
+  let currentScrollPosition = 0;
+  const scrollAmount = 320;
+
+  const sCount = document.querySelector(".storys-container");
+  const hScroll = document.querySelector(".horizontal-scroll");
+  const btnScrollLeft = document.querySelector("#btn-scroll-left");
+  const btnScrollRight = document.querySelector("#btn-scroll-right");
+
+  btnScrollLeft.style.opacity = "0";
+
+  const maxScroll = -(sCount.scrollWidth - hScroll.clientWidth);
+
+  function scrollHorizontally(val) {
+    currentScrollPosition += val * scrollAmount;
+
+    // Clamp currentScrollPosition within the bounds
+    if (currentScrollPosition >= 0) {
+      currentScrollPosition = 0;
+      btnScrollLeft.style.opacity = "0";
+    } else {
+      btnScrollLeft.style.opacity = "1";
+    }
+
+    if (currentScrollPosition <= maxScroll) {
+      currentScrollPosition = maxScroll;
+      btnScrollRight.style.opacity = "0";
+    } else {
+      btnScrollRight.style.opacity = "1";
+    }
+
+    sCount.style.left = currentScrollPosition + "px";
+  }
+</script>
