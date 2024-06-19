@@ -17,6 +17,20 @@
     border-radius: 25px;
     padding: 0.5rem 3rem 0.5rem 3rem;
   }
+  @media (min-width: 768px) and (max-width: 991.98px) {
+    .btn-search {
+      font-size: 0; /* Hides the text inside the button */
+    }
+    .btn-search i {
+      font-size: 20px;
+    }
+    a.nav-link {
+      text-align: center;
+    }
+    .inp-search::placeholder {
+      content: "Search";
+    }
+  }
 </style>
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
   <div class="container-fluid">
@@ -41,7 +55,7 @@
           <input
             class="form-control me-2 inp-search"
             type="search"
-            placeholder="Search Destinations"
+            placeholder="Search "
           />
           <button class="btn btn-search" type="submit">
             <i class="fa-solid fa-magnifying-glass"></i>Search
