@@ -96,9 +96,28 @@ body {
 .btns {
   display: flex;
 }
+.btn-add {
+  margin-right: 1rem !important;
+}
 
 /* map */
 #map {
-  height: 25rem;
-  width: 40rem;
+  height: 15rem; /* Default for small screens (mobile) */
+  width: 100%; /* Full width for small screens (mobile) */
+}
+
+@media (min-width: 768px) {
+  /* For tablets and up */
+  #map {
+    height: 20rem; /* Height for tablets */
+    width: 27rem; /* Width for tablets */
+  }
+}
+
+@media (min-width: 992px) {
+  /* For laptops and up */
+  #map {
+    height: 25rem; /* Height for laptops and desktops */
+    width: 40rem; /* Width for laptops and desktops */
+  }
 }
