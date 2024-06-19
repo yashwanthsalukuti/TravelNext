@@ -91,7 +91,7 @@ app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", usersRouter);
 
 app.get("*", (req, res) => {
-  res.render("index.ejs", { data: "dataForMainTemplate" });
+  res.render("./listings/index.ejs", { data: "dataForMainTemplate" });
 });
 
 app.all("*", (req, res, next) => {
